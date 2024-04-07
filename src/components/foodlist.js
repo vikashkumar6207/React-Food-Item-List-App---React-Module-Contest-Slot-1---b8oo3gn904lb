@@ -10,11 +10,34 @@ function FoodList() {
 	const [isSecondCardEnabled, setIsSecondCardEnabled] = useState(false);
 	const [isFormEnabled, setIsFormEnabled] = useState(false);
 
+	const handleAddFood = () => {
+        setIsFirstCardEnabled(true);
+    };
+
+	const handleSaveFood = () => {
+        if (itemName && foodType && spicinessLevel) {
+            setFoods([...foods, { itemName, foodType, spicinessLevel }]);
+            setIsFirstCardEnabled(false);
+            setIsSecondCardEnabled(false);
+            setIsFormEnabled(false);
+            setItemName('');
+            setFoodType('');
+            setSpicinessLevel('');
+        }
+    };
+
+
+	const  handleDeleteFood = (index) => {
+        const updatedFoods = [...foods];
+        updatedFoods.splice(index, 1);
+        setFoods(updatedFoods);
+    };
+
 	return (
 		<>
 			<div className="container">
 				<h1>Food Items List</h1>
-				<button>Add Food</button>
+				<button onClick={handleAddFood}>Add Food</button>
 
 				<div className="card-container">
                         <>
@@ -43,14 +66,14 @@ function FoodList() {
 						</>
 				</div>
                 <div className={`card ${isSecondCardEnabled ? "" : "disabled"}`}>
-						<button>Save</button>
+						<button onClick={handleSaveFood}>Save</button>
 				</div>
 
 				<ul className="list">
                         <li>
 							{itemName} ({foodType}) - Spiciness Level:{" "}
 							{spicinessLevel}
-							<button>Delete</button>
+							<button onClick={() => handleDeleteFood(index)}>Delete</button>
 						</li>
 				</ul>
 			</div>
